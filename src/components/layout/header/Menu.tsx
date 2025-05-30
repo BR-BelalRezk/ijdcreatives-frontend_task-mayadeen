@@ -30,9 +30,12 @@ const Menu = ({
 }: React.HTMLAttributes<HTMLDivElement>) => {
   const [toggle, setToggle] = useState(false);
   useEffect(() => {
-    if (window.screen.width >= 1024) {
-      setToggle(true);
-    }
+    const handleResize = () => {
+      setToggle(window.innerWidth >= 1024);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
   return (
     <MenuContext.Provider value={{ toggle, setToggle }}>
