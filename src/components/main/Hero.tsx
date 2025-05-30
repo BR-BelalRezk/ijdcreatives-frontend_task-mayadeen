@@ -2,10 +2,10 @@
 import heroImage from "../../../public/home-page/main-img.svg";
 import CustomButton from "../ui/CustomButton";
 import Card from "../ui/Card";
-import { motion } from "motion/react";
+import { motion, Variants } from "motion/react";
 
 export default function Hero() {
-  const headingVariants = {
+  const headingVariants: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
@@ -14,7 +14,7 @@ export default function Hero() {
     },
   };
 
-  const paragraphVariants = {
+  const paragraphVariants: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,
@@ -23,7 +23,7 @@ export default function Hero() {
     },
   };
 
-  const buttonVariants = {
+  const buttonVariants: Variants = {
     hidden: { opacity: 0, y: 50 },
     visible: {
       opacity: 1,

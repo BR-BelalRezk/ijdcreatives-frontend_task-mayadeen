@@ -3,18 +3,12 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import x from "../../../../public/icons/X.svg";
 import CustomButton from "@/components/ui/CustomButton";
+import { modelListItems } from "@/constants";
 
 const variants: Variants = {
   open: { opacity: 1, y: 0 },
   close: { opacity: 0, y: 50 },
 };
-
-const listItems = [
-  { title: "المسافة", value: "4 كم" },
-  { title: "النوع", value: "رملي" },
-  { title: "العمر", value: "3 سنوات" },
-  { title: "الجائزة", value: "100,000 ر.س" },
-];
 
 export default function Model({
   displayModel,
@@ -80,7 +74,7 @@ export default function Model({
                 </p>
               </div>
               <ul className="mt-[7px] w-full flex flex-col items-end justify-end">
-                {listItems.map((item, i) => (
+                {modelListItems.map((item, i) => (
                   <li
                     key={i}
                     className="flex items-center text-right w-full flex-row-reverse gap-[11px] text-[20px] font-medium"
