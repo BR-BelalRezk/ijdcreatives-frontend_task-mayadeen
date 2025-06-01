@@ -1,14 +1,17 @@
 import { useRef } from "react";
 import Model from "./Model";
+import { RaceEvent } from "./RacingCalenderContextProvider";
 
 export default function TableDataRowCircleButton({
   displayModel,
   setDisplayModel,
   index,
+  data,
 }: {
   displayModel: number | null;
   setDisplayModel: React.Dispatch<React.SetStateAction<number | null>>;
   index: number;
+  data: RaceEvent;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   return (
@@ -30,6 +33,7 @@ export default function TableDataRowCircleButton({
       </span>
       <Model
         index={index}
+        item={data}
         displayModel={displayModel}
         setDisplayModel={setDisplayModel}
         parentRef={ref}

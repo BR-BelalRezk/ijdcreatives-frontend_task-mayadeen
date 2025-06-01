@@ -3,7 +3,8 @@ import { AnimatePresence, motion, Variants } from "framer-motion";
 import Image from "next/image";
 import x from "../../../../public/icons/X.svg";
 import CustomButton from "@/components/ui/CustomButton";
-import { modelListItems } from "@/constants";
+import { RaceEvent } from "./RacingCalenderContextProvider";
+import { getDate } from "@/components/utils/getDate";
 
 const variants: Variants = {
   open: { opacity: 1, y: 0 },
@@ -15,11 +16,13 @@ export default function Model({
   index,
   setDisplayModel,
   parentRef,
+  item,
 }: {
   index: number;
   displayModel: number | null;
   setDisplayModel: React.Dispatch<React.SetStateAction<number | null>>;
   parentRef: React.RefObject<HTMLSpanElement | null>;
+  item: RaceEvent;
 }) {
   const [positionRight, setPositionRight] = useState(false);
 
@@ -31,6 +34,13 @@ export default function Model({
       setPositionRight(spaceRight < 400 && spaceLeft > 400);
     }
   }, [displayModel, index, parentRef]);
+
+  const modelListItems = [
+    { title: "المسافة", value: item.averageDistance },
+    { title: "النوع", value: item.floor },
+    { title: "العمر", value: item.averageAge },
+    { title: "الجائزة", value: item.averagePrize },
+  ];
 
   return (
     <AnimatePresence mode="wait">
@@ -57,20 +67,21 @@ export default function Model({
             <article className="flex flex-col items-end w-full justify-end text-right p-5">
               <div>
                 <h3 className="text-main text-[27px] leading-[60px] font-medium">
-                  اسم السباق
+                  {item.name}
                 </h3>
                 <p className="text-main text-[18px] leading-[40px] font-medium">
-                  التصنيف
+                  {item.classification}
                 </p>
               </div>
               <div className="flex items-center gap-5 flex-row-reverse text-[14px] text-black leading-[30px] font-medium">
                 <p className="flex flex-row-reverse gap-1 items-center">
-                  <span>06</span>
-                  <span>اكتوبر</span>
-                  <span>2024</span>
+                  <span>{getDate(item.startedAt).dayOfMonth}</span>
+                  <span>{getDate(item.startedAt).monthName}</span>
+                  <span>{getDate(item.startedAt).year}</span>
                 </p>
                 <p>
-                  <span>05:30 PM</span> <span>-</span> <span>07:30 PM</span>
+                  <span>{getDate(item.startTime).AMorPM}</span> <span>-</span>{" "}
+                  <span>{getDate(item.endTime).AMorPM}</span>
                 </p>
               </div>
               <ul className="mt-[7px] w-full flex flex-col items-end justify-end">
