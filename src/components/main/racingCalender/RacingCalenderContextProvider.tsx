@@ -47,7 +47,9 @@ export default function RacingCalendarContextProvider({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("http://192.168.0.137:3030/api/race");
+        const response = await fetch(
+          "https://mayadeen-api.wovenclouds.com/api/race"
+        );
         console.log(response);
         if (!response.ok) {
           throw new Error(

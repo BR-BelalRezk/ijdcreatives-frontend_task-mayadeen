@@ -1,4 +1,3 @@
-import Header from "./Header";
 import RacingCalenderContextProvider from "./RacingCalenderContextProvider";
 import Table from "./Table";
 
@@ -12,7 +11,6 @@ export default function RacingCalendar() {
               رزنامة السباقات
             </h2>
             <div className="flex items-end xl:items-start flex-col xl:flex-row-reverse justify-between w-full gap-[50px] xl:gap-[200px]">
-              <Header />
               <Table />
             </div>
           </div>

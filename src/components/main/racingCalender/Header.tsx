@@ -4,22 +4,25 @@ import leftArrowCircleIcon from "../../../../public/icons/left-arrow-circle.svg"
 import rightArrowCircleIcon from "../../../../public/icons/right-arrow-circle.svg";
 import { useState } from "react";
 import { AnimatePresence, motion, Variants } from "motion/react";
-export default function Header() {
-  const [date, setDate] = useState(new Date());
+export default function Header({
+  nxtWeek,
+  prevWeek,
+  startDate,
+}: {
+  startDate: Date;
+  nxtWeek: () => void;
+  prevWeek: () => void;
+}) {
   const [direction, setDirection] = useState<"forward" | "backward">("forward");
 
-  const previousMonth = () => {
-    const newDate = new Date(date);
-    newDate.setMonth(date.getMonth() - 1);
+  const previousWeek = () => {
     setDirection("backward");
-    setDate(newDate);
+    prevWeek();
   };
 
-  const nextMonth = () => {
-    const newDate = new Date(date);
-    newDate.setMonth(date.getMonth() + 1);
+  const nextWeek = () => {
     setDirection("forward");
-    setDate(newDate);
+    nxtWeek();
   };
   const animationVariants: Variants = {
     enter: (direction: "forward" | "backward") => ({
@@ -48,7 +51,7 @@ export default function Header() {
             mode="wait"
           >
             <motion.span
-              key={date.getFullYear()}
+              key={`year-${startDate.getFullYear()}`}
               className="text-black text-[22px] leading-[36px] font-medium block"
               custom={direction}
               variants={animationVariants}
@@ -56,7 +59,7 @@ export default function Header() {
               animate="center"
               exit="exit"
             >
-              {date.getFullYear()}
+              {startDate.getFullYear()}
             </motion.span>
           </AnimatePresence>
         </div>
@@ -66,7 +69,7 @@ export default function Header() {
             mode="wait"
           >
             <motion.span
-              key={`month-${date.getMonth()}`}
+              key={`month-${startDate.getMonth()}`}
               className="text-black text-[36px] leading-[36px]"
               custom={direction}
               variants={animationVariants}
@@ -74,7 +77,7 @@ export default function Header() {
               animate="center"
               exit="exit"
             >
-              {date.toLocaleString("ar", { month: "long" })}
+              {startDate.toLocaleString("ar", { month: "long" })}
             </motion.span>
           </AnimatePresence>
         </div>
@@ -82,7 +85,7 @@ export default function Header() {
       <div className="flex items-center justify-center gap-[9px] flex-shrink-0">
         <button
           className="cursor-pointer size-[35px]"
-          onClick={previousMonth}
+          onClick={previousWeek}
         >
           <Image
             src={leftArrowCircleIcon}
@@ -94,7 +97,7 @@ export default function Header() {
         </button>
         <button
           className="cursor-pointer size-[35px]"
-          onClick={nextMonth}
+          onClick={nextWeek}
         >
           <Image
             src={rightArrowCircleIcon}

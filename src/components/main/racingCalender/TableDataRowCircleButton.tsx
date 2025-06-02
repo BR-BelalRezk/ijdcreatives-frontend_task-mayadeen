@@ -6,14 +6,15 @@ export default function TableDataRowCircleButton({
   displayModel,
   setDisplayModel,
   index,
-  data,
+  event,
 }: {
   displayModel: number | null;
   setDisplayModel: React.Dispatch<React.SetStateAction<number | null>>;
   index: number;
-  data: RaceEvent;
+  event: RaceEvent | undefined;
 }) {
   const ref = useRef<HTMLSpanElement>(null);
+
   return (
     <td className=" relative flex  items-center w-full justify-center border border-[#E3E3E3] h-[139px] md:h-full ">
       <span
@@ -31,13 +32,15 @@ export default function TableDataRowCircleButton({
       >
         <span className="size-[18px] block rounded-full bg-[#FCFCFC] relative" />
       </span>
-      <Model
-        index={index}
-        item={data}
-        displayModel={displayModel}
-        setDisplayModel={setDisplayModel}
-        parentRef={ref}
-      />
+      {event && (
+        <Model
+          index={index}
+          item={event}
+          displayModel={displayModel}
+          setDisplayModel={setDisplayModel}
+          parentRef={ref}
+        />
+      )}
     </td>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "motion/react";
 import Image from "next/image";
 import x from "../../../../public/icons/X.svg";
 import CustomButton from "@/components/ui/CustomButton";

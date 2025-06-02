@@ -1,56 +1,65 @@
 "use client";
-import { useEffect, useState } from "react";
-import TableDataRowCircleButton from "./TableDataRowCircleButton";
-import { useRacingCalendarContext } from "./RacingCalenderContextProvider";
-import { getDate } from "@/components/utils/getDate";
+import { useState } from "react";
+import {
+  RaceEvent,
+  useRacingCalendarContext,
+} from "./RacingCalenderContextProvider";
 import Pulse from "@/components/ui/Pulse";
+import Header from "./Header";
+import TableHeader from "./TableHeader";
+import TableBody from "./TableBody";
 
 export default function Table() {
   const [displayModel, setDisplayModel] = useState<number | null>(null);
+  const [startDate, setStartDate] = useState(new Date());
   const { data, loading } = useRacingCalendarContext();
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
+
+  const dateRange = Array.from({ length: 9 }, (_, i) => {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
+    return date;
+  });
+
+  const eventsByDate = new Map<string, RaceEvent>();
+  data.forEach((event) => {
+    eventsByDate.set(new Date(event.date).toISOString().split("T")[0], event);
+  });
+
+  const nextWeek = () => {
+    const newStart = new Date(startDate);
+    newStart.setDate(startDate.getDate() + 7);
+    setStartDate(newStart);
+  };
+
+  const prevWeek = () => {
+    const newStart = new Date(startDate);
+    newStart.setDate(startDate.getDate() - 7);
+    setStartDate(newStart);
+  };
+  console.log(data);
   return (
     <>
       {loading ? (
         <Pulse />
       ) : (
-        <div className="w-full  mt-[52px]">
-          <table className="md:h-[295px] h-full border-collapse w-full flex md:flex-col justify-center">
-            <thead className="size-full md:size-auto">
-              <tr className="text-[#177245] text-[22px] leading-[36px] font-medium flex flex-col md:flex-row  relative w-full h-[140px] md:h-fit">
-                <span className="border-[3px] hidden xl:block border-[#E3E3E3] absolute w-[calc(100%+20vw)] 2xl:w-[calc(100%+15vw)] top-full" />
-                {data?.map((day, index) => (
-                  <th
-                    key={index}
-                    className=" flex-1 flex flex-col items-center justify-center border border-[#E3E3E3]"
-                  >
-                    <span className="text-[#177245] text-[32px] md:text-[57px] leading-[90px]">
-                      {getDate(day.date).dayOfMonth}
-                    </span>
-                    <span className="text-[#000E5A] text-[16px] md:text-[21px] leading-[47px]">
-                      {getDate(day.date).dayName}
-                    </span>
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="size-full">
-              <tr className="flex w-full h-full  flex-col md:flex-row">
-                {data.map((item, index) => (
-                  <TableDataRowCircleButton
-                    index={index}
-                    data={item}
-                    displayModel={displayModel}
-                    setDisplayModel={setDisplayModel}
-                    key={index}
-                  />
-                ))}
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <>
+          <Header
+            startDate={startDate}
+            nxtWeek={nextWeek}
+            prevWeek={prevWeek}
+          />
+          <div className="w-full  mt-[52px]">
+            <table className="md:h-[295px] h-full border-collapse w-full flex md:flex-col justify-center">
+              <TableHeader dateRange={dateRange} />
+              <TableBody
+                eventsByDate={eventsByDate}
+                setDisplayModel={setDisplayModel}
+                displayModel={displayModel}
+                dateRange={dateRange}
+              />
+            </table>
+          </div>
+        </>
       )}
     </>
   );
