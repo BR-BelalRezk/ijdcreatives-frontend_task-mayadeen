@@ -1,27 +1,23 @@
-"use client";
 import Image from "next/image";
 import leftArrowCircleIcon from "../../../../public/icons/left-arrow-circle.svg";
 import rightArrowCircleIcon from "../../../../public/icons/right-arrow-circle.svg";
-import { useState } from "react";
 import { AnimatePresence, motion, Variants } from "motion/react";
 export default function Header({
   nxtWeek,
   prevWeek,
   startDate,
+  direction,
 }: {
   startDate: Date;
   nxtWeek: () => void;
   prevWeek: () => void;
+  direction: "forward" | "backward";
 }) {
-  const [direction, setDirection] = useState<"forward" | "backward">("forward");
-
   const previousWeek = () => {
-    setDirection("backward");
     prevWeek();
   };
 
   const nextWeek = () => {
-    setDirection("forward");
     nxtWeek();
   };
   const animationVariants: Variants = {

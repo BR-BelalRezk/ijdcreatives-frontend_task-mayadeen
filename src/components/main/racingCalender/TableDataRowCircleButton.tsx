@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import Model from "./Model";
 import { RaceEvent } from "./RacingCalenderContextProvider";
+import { motion } from "motion/react";
 
 export default function TableDataRowCircleButton({
   displayModel,
@@ -16,7 +17,11 @@ export default function TableDataRowCircleButton({
   const ref = useRef<HTMLSpanElement>(null);
 
   return (
-    <td className=" relative flex  items-center w-full justify-center border border-[#E3E3E3] h-[139px] md:h-full ">
+    <motion.td
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className=" relative flex  items-center w-full justify-center border border-[#E3E3E3] h-[139px] md:h-full "
+    >
       <span
         onClick={() => {
           if (index === displayModel) {
@@ -41,6 +46,6 @@ export default function TableDataRowCircleButton({
           parentRef={ref}
         />
       )}
-    </td>
+    </motion.td>
   );
 }

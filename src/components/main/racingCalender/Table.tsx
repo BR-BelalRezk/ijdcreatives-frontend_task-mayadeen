@@ -12,6 +12,7 @@ import TableBody from "./TableBody";
 export default function Table() {
   const [displayModel, setDisplayModel] = useState<number | null>(null);
   const [startDate, setStartDate] = useState(new Date());
+  const [direction, setDirection] = useState<"forward" | "backward">("forward");
   const { data, loading } = useRacingCalendarContext();
 
   const dateRange = Array.from({ length: 9 }, (_, i) => {
@@ -29,12 +30,14 @@ export default function Table() {
     const newStart = new Date(startDate);
     newStart.setDate(startDate.getDate() + 7);
     setStartDate(newStart);
+    setDirection("forward");
   };
 
   const prevWeek = () => {
     const newStart = new Date(startDate);
     newStart.setDate(startDate.getDate() - 7);
     setStartDate(newStart);
+    setDirection("backward");
   };
   console.log(data);
   return (
@@ -47,10 +50,14 @@ export default function Table() {
             startDate={startDate}
             nxtWeek={nextWeek}
             prevWeek={prevWeek}
+            direction={direction}
           />
           <div className="w-full  mt-[52px]">
             <table className="md:h-[295px] h-full border-collapse w-full flex md:flex-col justify-center">
-              <TableHeader dateRange={dateRange} />
+              <TableHeader
+                direction={direction}
+                dateRange={dateRange}
+              />
               <TableBody
                 eventsByDate={eventsByDate}
                 setDisplayModel={setDisplayModel}
